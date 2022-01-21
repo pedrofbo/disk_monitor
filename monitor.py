@@ -44,6 +44,5 @@ if __name__ == "__main__":
     notify_disk_usage(
         threshold=config.get("threshold") or 0.9,
         sns_topic=config.get("sns_topic"),
-        instance_name=config.get("instance_name"),
-        instance_id=config.get("instance_id")
+        instance_name=config.get("instance_name")
     )
