@@ -5,13 +5,12 @@ import shutil
 import boto3
 
 
-def notify_disk_usage(threshold: float, sns_topic: str,
-                      instance_name: str, instance_id: str):
+def notify_disk_usage(threshold: float, sns_topic: str, instance_name: str):
     disk = shutil.disk_usage("/")
     if disk.used / disk.total > threshold:
         message = (
-            f"Disk usage of instance {instance_name} ({instance_id}) "
-            f"has exceeded the threshold of {threshold * 100}%\n"
+            f"Disk usage of instance {instance_name} has exceeded the "
+            f"threshold of {threshold * 100}%\n"
             f"Total disk space = {disk.total / 10**9:.2f} GB\n"
             f"Used disk space = {disk.used / 10**9:.2f} GB\n"
             f"Disk usage = {disk.used / disk.total * 100:.2f}%"
