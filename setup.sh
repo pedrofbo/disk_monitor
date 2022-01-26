@@ -16,7 +16,7 @@ while [[ $# -gt 0 ]]; do
   esac
 done
 
-echo "${sns_topic} ${instance_name}" >> /home/ubuntu/var.txt
+echo "${SNS_TOPIC} ${INSTANCE_NAME}" >> /home/ubuntu/var.txt
 
 mkdir -p /home/ubuntu/.disk_monitor/
 git -C /home/ubuntu/.disk_monitor/ clone https://github.com/pedrofbo/disk_monitor.git
