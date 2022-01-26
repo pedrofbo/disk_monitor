@@ -1,4 +1,6 @@
 #!/bin/bash
+set -e
+
 while [[ $# -gt 0 ]]; do
   case $1 in
     -s|--sns-topic)
@@ -14,7 +16,6 @@ while [[ $# -gt 0 ]]; do
   esac
 done
 
-set -e
 mkdir -p /home/ubuntu/.disk_monitor/
 git -C /home/ubuntu/.disk_monitor/ clone https://github.com/pedrofbo/disk_monitor.git
 apt-get update
