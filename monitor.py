@@ -30,19 +30,23 @@ if __name__ == "__main__":
         description="Check whether the disk usage is above a set threshold"
     )
     parser.add_argument(
-        "-c", "--config", type=str,
-        help=(
-            "Path to a configuration file. Must have the sns_instance, "
-            "instance_name and instance_id parameters and an optional "
-            "threshold parameter."
-        )
+        "-s", "--sns-topic", type=str,
+        help=("SNS topic where the notification will be sent to.")
+    )
+    parser.add_argument(
+        "-i", "--instance-name", type=str,
+        help=("Name of the EC2 instance being monitored.")
+    )
+    parser.add_argument(
+        "-t", "--threshold", type=float,
+        help=("Threshold of disk usage to determine when a notification "
+              "will be sent."),
+        required=False, default=0.9
     )
     args = parser.parse_args()
-    with open(args.config) as f:
-        config = json.load(f)
 
     notify_disk_usage(
-        threshold=config.get("threshold") or 0.9,
-        sns_topic=config.get("sns_topic"),
-        instance_name=config.get("instance_name")
+        threshold=args.threshold,
+        sns_topic=args.sns_topic,
+        instance_name=args.instance_name
     )

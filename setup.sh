@@ -16,8 +16,6 @@ while [[ $# -gt 0 ]]; do
   esac
 done
 
-echo "${SNS_TOPIC} ${INSTANCE_NAME}" >> /home/ubuntu/var.txt
-
 mkdir -p /home/ubuntu/.disk_monitor/
 git -C /home/ubuntu/.disk_monitor/ clone https://github.com/pedrofbo/disk_monitor.git
 apt-get update
@@ -27,8 +25,6 @@ source /home/ubuntu/.disk_monitor/.env/bin/activate
 pip3 install -r /home/ubuntu/.disk_monitor/disk_monitor/requirements.txt
 mkdir -p /home/ubuntu/.aws
 echo -e "[default]\nregion = us-east-1" >> /home/ubuntu/.aws/config
-echo -e \
-  '{\n\t"threshold": 0.2,\n\t"sns_topic": "${SNS_TOPIC}",\n\t"instance_name":"${INSTANCE_NAME}"\n}' \
-  >> /home/ubuntu/.disk_monitor/disk_monitor/config.json
-echo "* * * * * cd /home/ubuntu/.disk_monitor/disk_monitor/; . ../.env/bin/activate; python monitor.py -c config.json" >> /tmp/disk_monitor
+echo "* * * * * cd /home/ubuntu/.disk_monitor/disk_monitor/; . ../.env/bin/activate; \
+python monitor.py --sns-topic ${SNS_TOPIC} --instance-name ${INSTANCE_NAME} --threshold 0.2" >> /tmp/disk_monitor
 sudo -u ubuntu bash -c "crontab /tmp/disk_monitor"
